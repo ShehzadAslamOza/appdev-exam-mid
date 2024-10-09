@@ -154,7 +154,16 @@ class _MissionCardState extends State<MissionCard> {
                       expanded = !expanded;
                     });
                   },
-                  child: expanded ? Text('Read Less') : Text('Read More')),
+                  child: expanded
+                      ? ChipPill(
+                          label: "Read Less 🔼",
+                          color: Colors.grey.shade300,
+                          textColor: Colors.blue,
+                        )
+                      : ChipPill(
+                          label: "Read More 🔽",
+                          color: Colors.grey.shade300,
+                          textColor: Colors.blue)),
             ],
           ),
           Column(children: [
@@ -165,8 +174,9 @@ class _MissionCardState extends State<MissionCard> {
                       Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
                           .withOpacity(1.0);
                   return ChipPill(
-                    payloadId: payloadId,
+                    label: payloadId,
                     color: color,
+                    textColor: Colors.white,
                     key: UniqueKey(),
                   );
                 }).toList(),
@@ -179,9 +189,14 @@ class _MissionCardState extends State<MissionCard> {
 }
 
 class ChipPill extends StatefulWidget {
-  final payloadId;
+  final label;
   final Color color;
-  const ChipPill({super.key, required this.payloadId, required this.color});
+  final Color textColor;
+  const ChipPill(
+      {super.key,
+      required this.label,
+      required this.color,
+      required this.textColor});
 
   @override
   State<ChipPill> createState() => _ChipPillState();
@@ -194,9 +209,9 @@ class _ChipPillState extends State<ChipPill> {
       backgroundColor: widget.color,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(100),
+        side: const BorderSide(color: Colors.white),
       ),
-      label:
-          Text(widget.payloadId, style: const TextStyle(color: Colors.white)),
+      label: Text(widget.label, style: TextStyle(color: widget.textColor)),
     );
   }
 }
