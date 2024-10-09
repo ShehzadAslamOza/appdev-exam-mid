@@ -101,19 +101,19 @@ class _SpacesMissionPageState extends State<SpacesMissionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Space Missions'),
+        title: const Text('Space Missions'),
         backgroundColor: Colors.teal[900],
-        titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
       ),
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: launchList.length,
               itemBuilder: (c, i) {
                 final launch = launchList[i];
                 return MissionCard(
                   launch: launch,
-                  key: UniqueKey(),
+                  key: Key('$i'),
                 );
               },
             ),
