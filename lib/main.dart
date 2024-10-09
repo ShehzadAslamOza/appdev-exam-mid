@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:math' as math;
 
 void main() {
   runApp(const MainApp());
@@ -110,7 +111,10 @@ class _SpacesMissionPageState extends State<SpacesMissionPage> {
               itemCount: launchList.length,
               itemBuilder: (c, i) {
                 final launch = launchList[i];
-                return MissionCard(launch: launch);
+                return MissionCard(
+                  launch: launch,
+                  key: UniqueKey(),
+                );
               },
             ),
     );
@@ -157,17 +161,42 @@ class _MissionCardState extends State<MissionCard> {
             if (widget.launch.payloadIds != null)
               Wrap(
                 children: widget.launch.payloadIds!.map((payloadId) {
-                  return Chip(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    label: Text(payloadId),
+                  Color color =
+                      Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                          .withOpacity(1.0);
+                  return ChipPill(
+                    payloadId: payloadId,
+                    color: color,
+                    key: UniqueKey(),
                   );
                 }).toList(),
               )
           ])
         ],
       ),
+    );
+  }
+}
+
+class ChipPill extends StatefulWidget {
+  final payloadId;
+  final Color color;
+  const ChipPill({super.key, required this.payloadId, required this.color});
+
+  @override
+  State<ChipPill> createState() => _ChipPillState();
+}
+
+class _ChipPillState extends State<ChipPill> {
+  @override
+  Widget build(BuildContext context) {
+    return Chip(
+      backgroundColor: widget.color,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(100),
+      ),
+      label:
+          Text(widget.payloadId, style: const TextStyle(color: Colors.white)),
     );
   }
 }
