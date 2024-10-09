@@ -110,38 +110,51 @@ class _SpacesMissionPageState extends State<SpacesMissionPage> {
               itemCount: launchList.length,
               itemBuilder: (c, i) {
                 final launch = launchList[i];
-                return Container(
-                  margin: EdgeInsets.all(8),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Text('${launch.missionName}'),
-                        subtitle: Text(
-                          '${launch.description}',
-                          overflow: expanded
-                              ? TextOverflow.visible
-                              : TextOverflow.ellipsis,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          MaterialButton(
-                              onPressed: () {
-                                setState(() {
-                                  expanded = !expanded;
-                                });
-                              },
-                              child: expanded
-                                  ? Text('Read Less')
-                                  : Text('Read More')),
-                        ],
-                      )
-                    ],
-                  ),
-                );
+                return MissionCard(launch: launch);
               },
             ),
+    );
+  }
+}
+
+class MissionCard extends StatefulWidget {
+  final Launch launch;
+  const MissionCard({super.key, required this.launch});
+
+  @override
+  State<MissionCard> createState() => _MissionCardState();
+}
+
+class _MissionCardState extends State<MissionCard> {
+  bool expanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(8),
+      child: Column(
+        children: [
+          ListTile(
+            title: Text('${widget.launch.missionName}'),
+            subtitle: Text(
+              '${widget.launch.description}',
+              overflow: expanded ? TextOverflow.visible : TextOverflow.ellipsis,
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              MaterialButton(
+                  onPressed: () {
+                    setState(() {
+                      expanded = !expanded;
+                    });
+                  },
+                  child: expanded ? Text('Read Less') : Text('Read More')),
+            ],
+          )
+        ],
+      ),
     );
   }
 }
