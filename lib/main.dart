@@ -70,6 +70,7 @@ class SpacesMissionPage extends StatefulWidget {
 
 class _SpacesMissionPageState extends State<SpacesMissionPage> {
   List<Launch> launchList = [];
+  bool expanded = false;
   bool isLoading = true;
 
   Future<void> fetchLaunches() async {
@@ -115,8 +116,27 @@ class _SpacesMissionPageState extends State<SpacesMissionPage> {
                     children: [
                       ListTile(
                         title: Text('${launch.missionName}'),
-                        subtitle: Text('${launch.description}'),
+                        subtitle: Text(
+                          '${launch.description}',
+                          overflow: expanded
+                              ? TextOverflow.visible
+                              : TextOverflow.ellipsis,
+                        ),
                       ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          MaterialButton(
+                              onPressed: () {
+                                setState(() {
+                                  expanded = !expanded;
+                                });
+                              },
+                              child: expanded
+                                  ? Text('Read Less')
+                                  : Text('Read More')),
+                        ],
+                      )
                     ],
                   ),
                 );
