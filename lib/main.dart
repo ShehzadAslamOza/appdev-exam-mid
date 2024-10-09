@@ -135,14 +135,38 @@ class _MissionCardState extends State<MissionCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey.shade300),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(
+              1.0,
+              2.0,
+            ),
+            blurRadius: 2.0,
+            spreadRadius: 0.0,
+          ), //BoxShadow
+          BoxShadow(
+            color: Colors.white,
+            offset: Offset(0.0, 0.0),
+            blurRadius: 0.0,
+            spreadRadius: 0.0,
+          ), //BoxShadow
+        ],
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      margin: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           ListTile(
-            title: Text('${widget.launch.missionName}'),
+            title: Text('${widget.launch.missionName}',
+                style: const TextStyle(fontWeight: FontWeight.w500)),
             subtitle: Text(
               '${widget.launch.description}',
               overflow: expanded ? TextOverflow.visible : TextOverflow.ellipsis,
+              style: TextStyle(color: Colors.grey.shade600),
             ),
           ),
           Row(
@@ -156,32 +180,37 @@ class _MissionCardState extends State<MissionCard> {
                   },
                   child: expanded
                       ? ChipPill(
-                          label: "Read Less 🔼",
+                          label: "Less 🔼",
                           color: Colors.grey.shade300,
                           textColor: Colors.blue,
                         )
                       : ChipPill(
-                          label: "Read More 🔽",
+                          label: "More 🔽",
                           color: Colors.grey.shade300,
                           textColor: Colors.blue)),
             ],
           ),
-          Column(children: [
-            if (widget.launch.payloadIds != null)
-              Wrap(
-                children: widget.launch.payloadIds!.map((payloadId) {
-                  Color color =
-                      Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                          .withOpacity(1.0);
-                  return ChipPill(
-                    label: payloadId,
-                    color: color,
-                    textColor: Colors.white,
-                    key: UniqueKey(),
-                  );
-                }).toList(),
-              )
-          ])
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(children: [
+              if (widget.launch.payloadIds != null)
+                Wrap(
+                  spacing: 5,
+                  runSpacing: 5,
+                  children: widget.launch.payloadIds!.map((payloadId) {
+                    Color color =
+                        Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                            .withOpacity(1.0);
+                    return ChipPill(
+                      label: payloadId,
+                      color: color,
+                      textColor: Colors.white,
+                      key: UniqueKey(),
+                    );
+                  }).toList(),
+                )
+            ]),
+          )
         ],
       ),
     );
