@@ -70,6 +70,7 @@ class SpacesMissionPage extends StatefulWidget {
 
 class _SpacesMissionPageState extends State<SpacesMissionPage> {
   List<Launch> launchList = [];
+  bool isLoading = true;
 
   Future<void> fetchLaunches() async {
     try {
@@ -80,6 +81,7 @@ class _SpacesMissionPageState extends State<SpacesMissionPage> {
         final data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
         setState(() {
           launchList = data.map((launch) => Launch.fromJson(launch)).toList();
+          isLoading = false;
         });
       }
     } catch (e) {
@@ -101,8 +103,8 @@ class _SpacesMissionPageState extends State<SpacesMissionPage> {
           backgroundColor: Colors.teal[900],
           titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
-        body: const Center(
-          child: Text("Hello World"),
-        ));
+        body: isLoading
+            ? Center(child: CircularProgressIndicator())
+            : const Center(child: Text("Data Loaded Successfully")));
   }
 }
