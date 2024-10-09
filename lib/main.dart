@@ -98,13 +98,30 @@ class _SpacesMissionPageState extends State<SpacesMissionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Space Missions'),
-          backgroundColor: Colors.teal[900],
-          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
-        ),
-        body: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : const Center(child: Text("Data Loaded Successfully")));
+      appBar: AppBar(
+        title: Text('Space Missions'),
+        backgroundColor: Colors.teal[900],
+        titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+      ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: launchList.length,
+              itemBuilder: (c, i) {
+                final launch = launchList[i];
+                return Container(
+                  margin: EdgeInsets.all(8),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text('${launch.missionName}'),
+                        subtitle: Text('${launch.description}'),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+    );
   }
 }
