@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const MainApp());
@@ -67,6 +69,30 @@ class SpacesMissionPage extends StatefulWidget {
 }
 
 class _SpacesMissionPageState extends State<SpacesMissionPage> {
+  List<Launch> launchList = [];
+
+  Future<void> fetchLaunches() async {
+    try {
+      final response =
+          await http.get(Uri.parse("https://api.spacexdata.com/v3/missions"));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(utf8.decode(response.bodyBytes)) as List;
+        setState(() {
+          launchList = data.map((launch) => Launch.fromJson(launch)).toList();
+        });
+      }
+    } catch (e) {
+      throw Exception("Failed to fetch launches");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchLaunches();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
