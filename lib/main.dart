@@ -55,12 +55,28 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+    return const MaterialApp(home: SpacesMissionPage());
+  }
+}
+
+class SpacesMissionPage extends StatefulWidget {
+  const SpacesMissionPage({super.key});
+
+  @override
+  State<SpacesMissionPage> createState() => _SpacesMissionPageState();
+}
+
+class _SpacesMissionPageState extends State<SpacesMissionPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('Space Missions'),
+          backgroundColor: Colors.teal[900],
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
         ),
-      ),
-    );
+        body: const Center(
+          child: Text("Hello World"),
+        ));
   }
 }
