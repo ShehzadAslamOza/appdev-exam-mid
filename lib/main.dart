@@ -152,7 +152,20 @@ class _MissionCardState extends State<MissionCard> {
                   },
                   child: expanded ? Text('Read Less') : Text('Read More')),
             ],
-          )
+          ),
+          Column(children: [
+            if (widget.launch.payloadIds != null)
+              Wrap(
+                children: widget.launch.payloadIds!.map((payloadId) {
+                  return Chip(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    label: Text(payloadId),
+                  );
+                }).toList(),
+              )
+          ])
         ],
       ),
     );
